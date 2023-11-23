@@ -1,0 +1,35 @@
+server:
+  port: 48082
+
+# topics:
+#   retry: 'inventory-events.RETRY'
+#   dlt: 'inventory-events.DLT'
+
+spring:
+  kafka:
+    # topic: "inventory-events"
+    bootstrap-servers: localhost:9092
+    consumer:
+      bootstrap-servers: localhost:9092
+      key-deserializer: org.apache.kafka.common.serialization.IntegerDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      group-id: kafka-test-mtmh
+      properties:
+        spring.json.trusted.packages: '*'
+    producer:
+      properties:
+        acks: all
+        retries: 10
+        retry.backoff.ms: 1000
+      bootstrap-servers: localhost:9092
+      key-serializer: org.apache.kafka.common.serialization.IntegerSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer	  
+
+logging:
+  level:
+    org:
+      apache:
+        kafka: WARN
+    kafka: WARN
+
+
